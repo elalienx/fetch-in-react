@@ -10,12 +10,19 @@ export default function App() {
   // 2. Array of variables that decides if we re-run this useEffect hook
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/todos/1")
-      .then((response) => response.json())
-      .then((json) => {
-        console.log(json);
-        setTask(json);
-      });
+      .then(convertToJSON)
+      .then(storeJSON);
   }, []);
+
+  function convertToJSON(data) {
+    console.log("App.jsx convertToJSON() data", data);
+    return data.json();
+  }
+
+  function storeJSON(data) {
+    console.log("App.jsx storeJSON() data", data);
+    setTask(data);
+  }
 
   return (
     <div className="App">
