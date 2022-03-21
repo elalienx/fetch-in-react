@@ -5,16 +5,18 @@ export default function App() {
   // Local state
   const [task, setTask] = useState({});
 
+  // Properties
+  const url = "https://jsonplaceholder.typicode.com/todos/1";
+
   // Method
-  // 1.The arrow function
-  // 2. Array of variables that decides if we re-run this useEffect hook
-  useEffect(async () => {
-    const url = "https://jsonplaceholder.typicode.com/todos/1";
+  useEffect(() => loadData(url, setTask), []);
+
+  async function loadData(url, setState) {
     const response = await fetch(url);
     const json = await response.json();
 
-    setTask(json);
-  }, []);
+    setState(json);
+  }
 
   return (
     <div className="App">
