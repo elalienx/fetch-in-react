@@ -5,23 +5,16 @@ export default function App() {
   // Local state
   const [task, setTask] = useState({});
 
+  // Properties
+  const url = "https://jsonplaceholder.typicode.com/todos/1";
+
   // Method
-  // 1.The arrow function
-  // 2. Array of variables that decides if we re-run this useEffect hook
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/todos/1")
-      .then(convertToJSON)
-      .then(storeJSON);
-  }, []);
+  useEffect(() => loadData(url, setTask), []);
 
-  function convertToJSON(data) {
-    console.log("App.jsx convertToJSON() data", data);
-    return data.json();
-  }
-
-  function storeJSON(data) {
-    console.log("App.jsx storeJSON() data", data);
-    setTask(data);
+  function loadData(url, setState) {
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => setState(json));
   }
 
   return (
