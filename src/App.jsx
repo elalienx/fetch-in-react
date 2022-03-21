@@ -8,13 +8,13 @@ export default function App() {
   // Method
   // 1.The arrow function
   // 2. Array of variables that decides if we re-run this useEffect hook
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/todos/1")
-      .then((response) => response.json())
-      .then((json) => {
-        console.log(json);
-        setTask(json);
-      });
+  useEffect(async () => {
+    const response = await fetch(
+      "https://jsonplaceholder.typicode.com/todos/1"
+    );
+    const json = await response.json();
+
+    setTask(json);
   }, []);
 
   return (
