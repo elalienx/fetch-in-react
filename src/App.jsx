@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 
 // Project file
+import ErrorScreen from "./screen/ErrorScreen";
+import LoadingScreen from "./screen/LoadingScreen";
 import TasksScreen from "./screen/TasksScreen";
 
 export default function App() {
@@ -10,25 +12,29 @@ export default function App() {
   const [status, setStatus] = useState(0); // 0: loading, 1: loaded, 2: error.
 
   // Properties
-  const url = "https://jsonplaceholder.typicode.com/todos/";
+  const url = "https://jsonplaceholderX.typicode.com/todos/";
 
   // Method
   useEffect(() => loadData(url, setTasks), []);
 
   async function loadData(url, setState) {
-    const response = await fetch(url);
-    const json = await response.json();
+    try {
+      const response = await fetch(url);
+      const json = await response.json();
 
-    console.log(json);
-    
-    setState(json);
+      setState(json);
+      setStatus(1);
+    } catch (error) {
+      console.error(`Cannot load the todos from ${url}. Error: ${error}`);
+      setStatus(2);
+    }
   }
 
   return (
     <div className="App">
-      {status === 0 && <p>🕰 Loading...</p>}
+      {status === 0 && <LoadingScreen />}
       {status === 1 && <TasksScreen tasks={tasks} />}
-      {status === 2 && <p>❌ Error!</p>}
+      {status === 2 && <ErrorScreen />}
     </div>
   );
 }
