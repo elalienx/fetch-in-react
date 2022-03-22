@@ -12,12 +12,12 @@ export default function App() {
   const [status, setStatus] = useState(0); // 0: loading, 1: loaded, 2: error.
 
   // Properties
-  const url = "https://jsonplaceholderX.typicode.com/todos/";
+  const url = "https://jsonplaceholder.typicode.com/todos/";
 
   // Method
-  useEffect(() => loadData(url, setTasks), []);
+  useEffect(() => loadData(url, setTasks, setStatus), []);
 
-  async function loadData(url, setState) {
+  async function loadData(url, setState, setStatus) {
     try {
       const response = await fetch(url);
       const json = await response.json();
