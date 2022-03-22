@@ -15,6 +15,7 @@ export default function TasksScreen({ url, tasksState }) {
       method: "DELETE",
     });
 
+    // We do a inverse filter, instead of saying where item.id equals id, we say where item.id does not equal id
     const filteredArray = tasks.filter((item) => item.id !== id);
     setTasks(filteredArray);
   }
