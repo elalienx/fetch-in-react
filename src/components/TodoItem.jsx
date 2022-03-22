@@ -1,11 +1,10 @@
-export default function TodoItem({ item }) {
-  const { id, userId, title, completed } = item;
+export default function TodoItem({ item, onDelete }) {
+  const { id, title, completed } = item;
 
   return (
     <li className="todo-item">
-      <b>User id:</b> @{userId}@,
-      <b>Id:</b> @{id}@,
-      <b>Title:</b> @{title}@<b>Completed:</b> @{completed ? "Yes" : "No"}@.
+      {title} - <b>{completed ? "Completed" : "Pending"}</b>
+      <button onClick={() => onDelete(id)}>Delete me</button>
     </li>
   );
 }

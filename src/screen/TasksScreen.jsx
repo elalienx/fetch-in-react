@@ -1,16 +1,29 @@
 // Project files
 import TodoItem from "../components/TodoItem";
 
-export default function TasksScreen({ tasks }) {
-  // Components
-  const TodoItems = tasks.map((item) => <TodoItem key={item.id} item={item} />);
+export default function TasksScreen({ url, tasksState }) {
+  const [tasks, setTasks] = tasksState;
 
-  console.log("TasksScreen.jsx tasks", tasks);
+  // Components
+  const TodoItems = tasks.map((item) => (
+    <TodoItem key={item.id} item={item} onDelete={onDelete} />
+  ));
+
+  // Methods
+  async function onDelete(id) {
+    await fetch(`${url}/${id}`, {
+      method: "DELETE",
+    });
+
+    const filteredArray = tasks.filter((item) => item.id !== id);
+    setTasks(filteredArray);
+  }
 
   return (
     <div id="tasks-screen">
-      <h1>Hello world @{tasks[5].title}@</h1>
-      <ul>{TodoItems}</ul>
+      <h1>Hello world</h1>
+      <ol>{TodoItems}</ol>
+      <button>Create tasks</button>
     </div>
   );
 }

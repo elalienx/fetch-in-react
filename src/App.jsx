@@ -33,7 +33,7 @@ export default function App() {
   return (
     <div className="App">
       {status === 0 && <LoadingScreen />}
-      {status === 1 && <TasksScreen tasks={tasks} />}
+      {status === 1 && <TasksScreen url={url} tasksState={[tasks, setTasks]} />}
       {status === 2 && <ErrorScreen />}
     </div>
   );
