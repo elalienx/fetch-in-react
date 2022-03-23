@@ -1,57 +1,27 @@
 // Project files
 import TodoItem from "../components/TodoItem";
 
-export default function TasksScreen({ url, tasksState }) {
-  const [tasks, setTasks] = tasksState;
+export default function TasksScreen() {
+  // Methods
+  async function onCreate(newTask) {
+    await fetchingCreate(newTask); // this update the server
+    createTask(newTask); // this update the local state
+  }
 
-  // Properties
-  const header = {
-    "Content-type": "application/json; charset=UTF-8",
-  };
-  const newTask = {
-    userId: "5",
-    title: "Buy groceries",
-    completed: false,
-  };
+  async function onUpdate(updatedItem) {
+    await fetchingUpdate(updatedItem); // this update the server
+    updateTask(updatedItem); // this update the local state
+  }
+
+  async function onDelete(id) {
+    await fetchingDelete(id); // this update the server
+    deleteTask(id); // this update the local state
+  }
 
   // Components
   const TodoItems = tasks.map((item) => (
     <TodoItem key={item.id} item={item} actions={[onDelete, onUpdate]} />
   ));
-
-  // Methods
-  async function onCreate(newTask) {
-    await fetch(url, {
-      method: "POST",
-      headers: header,
-      body: JSON.stringify(newTask),
-    });
-
-    newTasks.id = tasks.length;
-    setTasks([...tasks, newTasks]);
-  }
-
-  async function onUpdate(updatedItem) {
-    await fetch(`${url}/${updatedItem.id}`, {
-      method: "PUT",
-      headers: header,
-      body: JSON.stringify(updatedItem),
-    });
-
-    const clonedTasks = [...tasks];
-    const index = clonedTasks.findIndex((item) => item.id === updatedItem.id);
-    clonedTasks[index] = updatedItem;
-    setTasks(clonedTasks);
-  }
-
-  async function onDelete(id) {
-    await fetch(`${url}/${id}`, {
-      method: "DELETE",
-    });
-
-    const filteredArray = tasks.filter((item) => item.id !== id);
-    setTasks(filteredArray);
-  }
 
   return (
     <div id="tasks-screen">
