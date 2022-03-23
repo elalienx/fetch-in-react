@@ -4,9 +4,14 @@ import TodoItem from "../components/TodoItem";
 export default function TasksScreen({ url, tasksState }) {
   const [tasks, setTasks] = tasksState;
 
+  // Properties
+  const header = {
+    "Content-type": "application/json; charset=UTF-8",
+  };
+
   // Components
   const TodoItems = tasks.map((item) => (
-    <TodoItem key={item.id} item={item} onDelete={onDelete} />
+    <TodoItem key={item.id} item={item} actions={[onDelete, onUpdate]} />
   ));
 
   // Methods
@@ -22,9 +27,6 @@ export default function TasksScreen({ url, tasksState }) {
       title: "Buy groceries",
       completed: false,
     };
-    const header = {
-      "Content-type": "application/json; charset=UTF-8",
-    };
 
     await fetch(url, {
       method: "POST",
@@ -36,6 +38,20 @@ export default function TasksScreen({ url, tasksState }) {
     newTasks.id = tasks.length;
 
     setTasks([...tasks, newTasks]);
+  }
+
+  async function onUpdate(updatedItem) {
+    await fetch(`${url}/${updatedItem.id}`, {
+      method: "PUT",
+      headers: header,
+      body: JSON.stringify(updatedItem),
+    });
+
+    const clonedTasks = [...tasks];
+    const index = clonedTasks.findIndex((item) => item.id === updatedItem.id);
+    clonedTasks[index] = updatedItem;
+
+    setTasks(clonedTasks);
   }
 
   async function onDelete(id) {
