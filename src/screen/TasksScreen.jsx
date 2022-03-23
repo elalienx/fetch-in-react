@@ -10,8 +10,32 @@ export default function TasksScreen({ url, tasksState }) {
   ));
 
   // Methods
+  // CRUD
+  // C = Create = onCreate()
+  // R = Read   = onLoad()
+  // U = Update = onUpdate()
+  // D = Delete = onDelete()
+
   async function onCreate() {
-    
+    const newTasks = {
+      userId: "5",
+      title: "Buy groceries",
+      completed: false,
+    };
+    const header = {
+      "Content-type": "application/json; charset=UTF-8",
+    };
+
+    await fetch(url, {
+      method: "POST",
+      headers: header,
+      body: JSON.stringify(newTasks),
+    });
+
+    console.log("item created!");
+    newTasks.id = tasks.length;
+
+    setTasks([...tasks, newTasks]);
   }
 
   async function onDelete(id) {
@@ -26,8 +50,8 @@ export default function TasksScreen({ url, tasksState }) {
   return (
     <div id="tasks-screen">
       <h1>Hello world</h1>
+      <button onClick={() => onCreate()}>Create tasks</button>
       <ol>{TodoItems}</ol>
-      <button>Create tasks</button>
     </div>
   );
 }
