@@ -15,12 +15,6 @@ export default function TasksScreen({ url, tasksState }) {
   ));
 
   // Methods
-  // CRUD
-  // C = Create = onCreate()
-  // R = Read   = onLoad()
-  // U = Update = onUpdate()
-  // D = Delete = onDelete()
-
   async function onCreate() {
     const newTasks = {
       userId: "5",
@@ -28,20 +22,18 @@ export default function TasksScreen({ url, tasksState }) {
       completed: false,
     };
 
-    await fetch(url, {
+    await fetch(`x${url}`, {
       method: "POST",
       headers: header,
       body: JSON.stringify(newTasks),
     });
 
-    console.log("item created!");
     newTasks.id = tasks.length;
-
     setTasks([...tasks, newTasks]);
   }
 
-  async function onUpdate(updatedItem) {
-    await fetch(`${url}/${updatedItem.id}`, {
+  function onUpdate(updatedItem) {
+    fetch(`X${url}/${updatedItem.id}`, {
       method: "PUT",
       headers: header,
       body: JSON.stringify(updatedItem),
@@ -50,7 +42,6 @@ export default function TasksScreen({ url, tasksState }) {
     const clonedTasks = [...tasks];
     const index = clonedTasks.findIndex((item) => item.id === updatedItem.id);
     clonedTasks[index] = updatedItem;
-
     setTasks(clonedTasks);
   }
 
