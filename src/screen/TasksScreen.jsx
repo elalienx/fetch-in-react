@@ -1,23 +1,31 @@
 // Project files
 import TodoItem from "../components/TodoItem";
+import { fetchCreate, fetchUpdate, fetchDelete } from "../scripts/fetching";
 
 export default function TasksScreen({ tasks, actions }) {
   const { createTask, updateTask, deleteTask } = actions;
 
+  // Property
+  const newTask = {
+    userId: 5,
+    title: "Buy groceries and snacks",
+    completed: false,
+  };
+
   // Methods
   async function onCreate(newTask) {
-    await fetchingCreate(newTask); // this update the server
-    createTask(newTask); // this update the local state
+    await fetchCreate(newTask);
+    createTask(newTask);
   }
 
   async function onUpdate(updatedTask) {
-    await fetchingUpdate(updatedTask); // this update the server
-    updateTask(updatedTask); // this update the local state
+    await fetchUpdate(updatedTask);
+    updateTask(updatedTask);
   }
 
   async function onDelete(taskId) {
-    await fetchingDelete(taskId); // this update the server
-    deleteTask(taskId); // this update the local state
+    await fetchDelete(taskId);
+    deleteTask(taskId);
   }
 
   // Components

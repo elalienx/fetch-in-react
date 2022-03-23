@@ -5,33 +5,31 @@ import { useEffect, useState } from "react";
 import ErrorScreen from "./screen/ErrorScreen";
 import LoadingScreen from "./screen/LoadingScreen";
 import TasksScreen from "./screen/TasksScreen";
+import { fetchRead } from "./scripts/fetching";
 
 export default function App() {
   // Local state
   const [tasks, setTasks] = useState([]);
   const [status, setStatus] = useState(0); // 0: loading, 1: loaded, 2: error.
 
-  // Properties
-  const url = "https://jsonplaceholder.typicode.com/todos/";
-
   // Method
-  useEffect(() => loadData(url, setTasks, setStatus), []);
+  useEffect(() => loadData(setTasks, setStatus), []);
 
-  async function loadData(url, setState, setStatus) {
-    try {
-      const response = await fetch(url);
-      const json = await response.json();
+  async function loadData() {
+    const payload = await fetchRead();
 
-      setState(json);
+    if (payload.status === 1) {
+      setTasks(payload.data);
       setStatus(1);
-    } catch (error) {
-      console.error(`Cannot load the todos from ${url}. Error: ${error}`);
+    }
+    if (payload.status === 2) {
+      alert(payload.data);
       setStatus(2);
     }
   }
 
   function createTask(newTask) {
-    const newId = tasks.length;
+    const newId = tasks.length + 1;
 
     newTask.id = newId;
     setTasks([...tasks, newTask]);
@@ -42,6 +40,8 @@ export default function App() {
     const index = clonedTasks.findIndex((item) => item.id === updateTask.id);
 
     clonedTasks[index] = updatedTask;
+
+    console.log("App.jsx updatedTask", updatedTask);
     setTasks(clonedTasks);
   }
 
@@ -57,7 +57,7 @@ export default function App() {
       {status === 1 && (
         <TasksScreen
           tasks={tasks}
-          actions={(createTask, updateTask, deleteTask)}
+          actions={{ createTask, updateTask, deleteTask }}
         />
       )}
       {status === 2 && <ErrorScreen />}
