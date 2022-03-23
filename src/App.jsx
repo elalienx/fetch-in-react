@@ -30,10 +30,36 @@ export default function App() {
     }
   }
 
+  function createTask(newTask) {
+    const newId = tasks.length;
+
+    newTask.id = newId;
+    setTasks([...tasks, newTask]);
+  }
+
+  function updateTask(updatedTask) {
+    const clonedTasks = [...tasks];
+    const index = clonedTasks.findIndex((item) => item.id === updateTask.id);
+
+    clonedTasks[index] = updatedTask;
+    setTasks(clonedTasks);
+  }
+
+  function deleteTask(taskId) {
+    const filteredTasks = tasks.filter((item) => item.id !== taskId);
+
+    setTasks(filteredTasks);
+  }
+
   return (
     <div className="App">
       {status === 0 && <LoadingScreen />}
-      {status === 1 && <TasksScreen url={url} tasksState={[tasks, setTasks]} />}
+      {status === 1 && (
+        <TasksScreen
+          tasks={tasks}
+          actions={(createTask, updateTask, deleteTask)}
+        />
+      )}
       {status === 2 && <ErrorScreen />}
     </div>
   );

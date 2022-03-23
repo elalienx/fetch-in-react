@@ -1,21 +1,23 @@
 // Project files
 import TodoItem from "../components/TodoItem";
 
-export default function TasksScreen() {
+export default function TasksScreen({ tasks, actions }) {
+  const { createTask, updateTask, deleteTask } = actions;
+
   // Methods
   async function onCreate(newTask) {
     await fetchingCreate(newTask); // this update the server
     createTask(newTask); // this update the local state
   }
 
-  async function onUpdate(updatedItem) {
-    await fetchingUpdate(updatedItem); // this update the server
-    updateTask(updatedItem); // this update the local state
+  async function onUpdate(updatedTask) {
+    await fetchingUpdate(updatedTask); // this update the server
+    updateTask(updatedTask); // this update the local state
   }
 
-  async function onDelete(id) {
-    await fetchingDelete(id); // this update the server
-    deleteTask(id); // this update the local state
+  async function onDelete(taskId) {
+    await fetchingDelete(taskId); // this update the server
+    deleteTask(taskId); // this update the local state
   }
 
   // Components
