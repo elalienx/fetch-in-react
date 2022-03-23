@@ -8,6 +8,11 @@ export default function TasksScreen({ url, tasksState }) {
   const header = {
     "Content-type": "application/json; charset=UTF-8",
   };
+  const newTask = {
+    userId: "5",
+    title: "Buy groceries",
+    completed: false,
+  };
 
   // Components
   const TodoItems = tasks.map((item) => (
@@ -15,25 +20,19 @@ export default function TasksScreen({ url, tasksState }) {
   ));
 
   // Methods
-  async function onCreate() {
-    const newTasks = {
-      userId: "5",
-      title: "Buy groceries",
-      completed: false,
-    };
-
-    await fetch(`x${url}`, {
+  async function onCreate(newTask) {
+    await fetch(url, {
       method: "POST",
       headers: header,
-      body: JSON.stringify(newTasks),
+      body: JSON.stringify(newTask),
     });
 
     newTasks.id = tasks.length;
     setTasks([...tasks, newTasks]);
   }
 
-  function onUpdate(updatedItem) {
-    fetch(`X${url}/${updatedItem.id}`, {
+  async function onUpdate(updatedItem) {
+    await fetch(`${url}/${updatedItem.id}`, {
       method: "PUT",
       headers: header,
       body: JSON.stringify(updatedItem),
@@ -57,7 +56,7 @@ export default function TasksScreen({ url, tasksState }) {
   return (
     <div id="tasks-screen">
       <h1>Hello world</h1>
-      <button onClick={() => onCreate()}>Create tasks</button>
+      <button onClick={() => onCreate(newTask)}>Create tasks</button>
       <ol>{TodoItems}</ol>
     </div>
   );
