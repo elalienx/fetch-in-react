@@ -37,11 +37,9 @@ export default function App() {
 
   function updateTask(updatedTask) {
     const clonedTasks = [...tasks];
-    const index = clonedTasks.findIndex((item) => item.id === updateTask.id);
+    const index = clonedTasks.findIndex((item) => item.id === updatedTask.id);
 
     clonedTasks[index] = updatedTask;
-
-    console.log("App.jsx updatedTask", updatedTask);
     setTasks(clonedTasks);
   }
 
