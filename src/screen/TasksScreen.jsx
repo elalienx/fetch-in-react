@@ -14,8 +14,10 @@ export default function TasksScreen() {
   }
 
   async function onUpdate(updatedTask) {
-    await fetchUpdate(updatedTask);
-    updateTask(updatedTask);
+    const payload = await fetchUpdate(updatedTask);
+
+    if (payload.status === 1) updateTask(updatedTask);
+    else alert("Could not update the task");
   }
 
   async function onDelete(taskId) {

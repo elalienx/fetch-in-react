@@ -1,5 +1,5 @@
 // Properties
-const url = "https://jsonplaceholder.typicode.com/todos/";
+const url = "https://jsonplaceholder.typicode.com/todos";
 const headers = { "Content-type": "application/json; charset=UTF-8" };
 
 // Methods
@@ -10,7 +10,7 @@ async function fetchCreate(item) {
     body: JSON.stringify(item),
   };
 
-  await fetch(url, message);
+  await fetch(`${url}`, message);
 }
 
 async function fetchRead() {
@@ -32,6 +32,8 @@ async function fetchRead() {
 }
 
 async function fetchUpdate(updatedItem) {
+  let data = "";
+  let status = 0;
   const finalURL = `${url}/${updatedItem.id}`;
   const message = {
     method: "PUT",
@@ -39,7 +41,22 @@ async function fetchUpdate(updatedItem) {
     body: JSON.stringify(updatedItem),
   };
 
-  await fetch(finalURL, message);
+  try {
+    const request = await fetch(finalURL, message);
+
+    if (request.status === 200) {
+      data = "Updated successfully";
+      status = 1;
+    } else {
+      data = "Could not update the item";
+      status = 2;
+    }
+  } catch (error) {
+    data = error;
+    status = 2;
+  }
+
+  return { data: data, status: status };
 }
 
 async function fetchDelete(itemId) {
