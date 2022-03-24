@@ -10,7 +10,7 @@ import { useTasks } from "./state/TasksContext";
 
 export default function App() {
   // Global state
-  const { tasks, setTasks } = useTasks();
+  const { setTasks } = useTasks();
 
   // Local state
   const [status, setStatus] = useState(0); // 0: loading, 1: loaded, 2: error.

@@ -2,16 +2,10 @@
 import TodoItem from "../components/TodoItem";
 import { useTasks } from "../state/TasksContext";
 import { fetchCreate, fetchUpdate, fetchDelete } from "../scripts/fetching";
+import fakeTask from "../data/fakeTask.json";
 
 export default function TasksScreen() {
   const { tasks, createTask, updateTask, deleteTask } = useTasks();
-
-  // Property
-  const newTask = {
-    userId: 5,
-    title: "Buy groceries and snacks",
-    completed: false,
-  };
 
   // Methods
   async function onCreate(newTask) {
@@ -37,7 +31,7 @@ export default function TasksScreen() {
   return (
     <div id="tasks-screen">
       <h1>Hello world</h1>
-      <button onClick={() => onCreate(newTask)}>Create tasks</button>
+      <button onClick={() => onCreate(fakeTask)}>Create tasks</button>
       <ol>{TodoItems}</ol>
     </div>
   );
