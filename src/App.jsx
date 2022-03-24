@@ -10,19 +10,19 @@ import { useTasks } from "./state/TasksContext";
 
 export default function App() {
   // Global state
-  const { setTasks } = useTasks();
+  const { replaceTasks } = useTasks();
 
   // Local state
   const [status, setStatus] = useState(0); // 0: loading, 1: loaded, 2: error.
 
   // Method
-  useEffect(() => loadData(setTasks, setStatus), []);
+  useEffect(() => loadData(replaceTasks, setStatus), []);
 
   async function loadData() {
     const payload = await fetchRead();
 
     if (payload.status === 1) {
-      setTasks(payload.data);
+      replaceTasks(payload.data);
       setStatus(1);
     }
     if (payload.status === 2) {

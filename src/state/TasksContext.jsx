@@ -9,9 +9,16 @@ export function TasksProvider({ children }) {
   const [tasks, setTasks] = useState([]);
 
   // Properties
-  const values = { tasks, createTask, updateTask, deleteTask, setTasks }; // REFACTOR, FIX
+  const values = { tasks, createTask, updateTask, deleteTask, replaceTasks };
 
   // Methods
+  function replaceTasks(tasks) {
+    if (tasks === null) throw new Error("This is tasks array");
+    if (tasks === undefined) throw new Error("This is tasks array");
+
+    setTasks(tasks);
+  }
+
   function createTask(newTask) {
     const newId = tasks.length + 1;
 
