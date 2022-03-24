@@ -15,11 +15,14 @@ export default function App() {
   // Local state
   const [status, setStatus] = useState(0); // 0: loading, 1: loaded, 2: error.
 
+  // Properties
+  const url = "https://jsonplaceholder.typicode.com/todos";
+
   // Method
-  useEffect(() => loadData(replaceTasks, setStatus), []);
+  useEffect(() => loadData(url, replaceTasks, setStatus), []);
 
   async function loadData() {
-    const payload = await fetchRead();
+    const payload = await fetchRead(url);
 
     if (payload.status === 1) {
       replaceTasks(payload.data);
@@ -34,7 +37,7 @@ export default function App() {
   return (
     <div className="App">
       {status === 0 && <LoadingScreen />}
-      {status === 1 && <TasksScreen />}
+      {status === 1 && <TasksScreen url={url} />}
       {status === 2 && <ErrorScreen />}
     </div>
   );

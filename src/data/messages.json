@@ -1,0 +1,7 @@
+{
+  "task": {
+    "updateError": "Sorry, we cannot update your task, please try again.",
+    "deleteError": "",
+    "createError": ""
+  }
+}

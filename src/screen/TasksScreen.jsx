@@ -1,27 +1,30 @@
 // Project files
 import TodoItem from "../components/TodoItem";
 import { useTasks } from "../state/TasksContext";
-import { fetchCreate, fetchUpdate, fetchDelete } from "../scripts/fetching";
+import { fetchCreate, fetchDelete } from "../scripts/fetching";
+import fetchUpdate from "../scripts/fetchUpdate";
 import fakeTask from "../data/fakeTask.json";
+import messages from "../data/messages.json";
 
-export default function TasksScreen() {
+export default function TasksScreen({ url }) {
   const { tasks, createTask, updateTask, deleteTask } = useTasks();
 
   // Methods
   async function onCreate(newTask) {
-    await fetchCreate(newTask);
+    await fetchCreate(url, newTask);
     createTask(newTask);
   }
 
   async function onUpdate(updatedTask) {
-    const payload = await fetchUpdate(updatedTask);
+    const fetch = await fetchUpdate(url, updatedTask);
 
-    if (payload.status === 1) updateTask(updatedTask);
-    else alert("Could not update the task");
+    if (fetch) updateTask(updatedTask);
+    //else setModal(<AlertModal text="Could not update tasks"/>)
+    else alert(messages.tasks.updateError);
   }
 
   async function onDelete(taskId) {
-    await fetchDelete(taskId);
+    await fetchDelete(url, taskId);
     deleteTask(taskId);
   }
 
