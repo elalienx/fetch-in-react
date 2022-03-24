@@ -19,7 +19,6 @@ export default function TasksScreen({ url }) {
     const fetch = await fetchUpdate(url, updatedTask);
 
     if (fetch) updateTask(updatedTask);
-    //else setModal(<AlertModal text="Could not update tasks"/>)
     else alert(messages.tasks.updateError);
   }
 
