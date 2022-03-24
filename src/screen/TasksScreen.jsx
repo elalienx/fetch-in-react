@@ -1,9 +1,10 @@
 // Project files
 import TodoItem from "../components/TodoItem";
+import { useTasks } from "../state/TasksContext";
 import { fetchCreate, fetchUpdate, fetchDelete } from "../scripts/fetching";
 
-export default function TasksScreen({ tasks, actions }) {
-  const { createTask, updateTask, deleteTask } = actions;
+export default function TasksScreen() {
+  const { tasks, createTask, updateTask, deleteTask } = useTasks();
 
   // Property
   const newTask = {

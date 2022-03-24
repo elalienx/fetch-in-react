@@ -6,10 +6,13 @@ import ErrorScreen from "./screen/ErrorScreen";
 import LoadingScreen from "./screen/LoadingScreen";
 import TasksScreen from "./screen/TasksScreen";
 import { fetchRead } from "./scripts/fetching";
+import { useTasks } from "./state/TasksContext";
 
 export default function App() {
+  // Global state
+  const { tasks, setTasks } = useTasks();
+
   // Local state
-  const [tasks, setTasks] = useState([]);
   const [status, setStatus] = useState(0); // 0: loading, 1: loaded, 2: error.
 
   // Method
@@ -28,36 +31,10 @@ export default function App() {
     }
   }
 
-  function createTask(newTask) {
-    const newId = tasks.length + 1;
-
-    newTask.id = newId;
-    setTasks([...tasks, newTask]);
-  }
-
-  function updateTask(updatedTask) {
-    const clonedTasks = [...tasks];
-    const index = clonedTasks.findIndex((item) => item.id === updatedTask.id);
-
-    clonedTasks[index] = updatedTask;
-    setTasks(clonedTasks);
-  }
-
-  function deleteTask(taskId) {
-    const filteredTasks = tasks.filter((item) => item.id !== taskId);
-
-    setTasks(filteredTasks);
-  }
-
   return (
     <div className="App">
       {status === 0 && <LoadingScreen />}
-      {status === 1 && (
-        <TasksScreen
-          tasks={tasks}
-          actions={{ createTask, updateTask, deleteTask }}
-        />
-      )}
+      {status === 1 && <TasksScreen />}
       {status === 2 && <ErrorScreen />}
     </div>
   );
